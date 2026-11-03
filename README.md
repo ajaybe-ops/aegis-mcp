@@ -1,5 +1,10 @@
 # Aegis MCP
 
+[![CI](https://github.com/ajaybe-ops/aegis-mcp/actions/workflows/ci.yml/badge.svg)](https://github.com/ajaybe-ops/aegis-mcp/actions/workflows/ci.yml)
+[![Security](https://github.com/ajaybe-ops/aegis-mcp/actions/workflows/security.yml/badge.svg)](https://github.com/ajaybe-ops/aegis-mcp/actions/workflows/security.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](https://www.python.org/downloads/)
+
 **A production-oriented Model Context Protocol (MCP) server for vulnerability intelligence and agentic incident triage.**
 
 Aegis connects AI agents (Claude, Cursor, custom agent runtimes, MCP-capable copilots) to structured vulnerability intelligence — NVD, FIRST EPSS, CISA KEV, and OSV — and turns multi-step incident workflows into auditable, idempotent, policy-scored operations.

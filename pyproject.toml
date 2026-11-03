@@ -51,10 +51,10 @@ dev = [
 aegis-mcp = "aegis_mcp.__main__:main"
 
 [project.urls]
-Homepage = "https://github.com/example/aegis-mcp"
-Documentation = "https://github.com/example/aegis-mcp/tree/main/docs"
-Security = "https://github.com/example/aegis-mcp/security/policy"
-Issues = "https://github.com/example/aegis-mcp/issues"
+Homepage = "https://github.com/ajaybe-ops/aegis-mcp"
+Documentation = "https://github.com/ajaybe-ops/aegis-mcp/tree/main/docs"
+Security = "https://github.com/ajaybe-ops/aegis-mcp/security/policy"
+Issues = "https://github.com/ajaybe-ops/aegis-mcp/issues"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/aegis_mcp"]
@@ -117,6 +117,12 @@ plugins = ["pydantic.mypy"]
 
 [[tool.mypy.overrides]]
 module = ["aiosqlite.*"]
+ignore_missing_imports = true
+
+# ASGI/HTTP instrumentation is loaded lazily and is optional by design, so the
+# package must type-check when those extras are not installed.
+[[tool.mypy.overrides]]
+module = ["opentelemetry.instrumentation.*"]
 ignore_missing_imports = true
 
 [tool.bandit]

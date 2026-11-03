@@ -30,4 +30,4 @@ jobs:
         with:
           python-version: "3.12"
       - run: python -m pip install --upgrade pip bandit
-      - run: bandit -r src -q
+      - run: bandit -r src -q -c pyproject.toml
