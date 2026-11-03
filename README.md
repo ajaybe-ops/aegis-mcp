@@ -171,7 +171,7 @@ docker compose up --build
 - **Offline mode is deterministic fixtures** — values are snapshots, not live data; labeled `offline fixture snapshot`.
 - **No managed IdP integration in-process** — JWKS validation is implemented; OAuth authorization-server endpoints require an external provider.
 - **No horizontal scaling of SQLite** — single-node persistence; move behind a proxy for multi-node.
-- **Docker image build could not be verified** in the authoring environment (no Docker daemon available); the `Dockerfile` and compose file are provided and CI will exercise the build path.
+- **Docker was not runnable in the authoring environment** (no daemon). The image is built and smoke-tested in CI on every push: the container starts with JWT auth, answers `/healthz` and `/readyz`, and rejects unauthenticated `/mcp` with `401`.
 
 ## License
 
