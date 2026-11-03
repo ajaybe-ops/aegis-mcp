@@ -31,7 +31,7 @@ jobs:
         run: aegis-mcp eval --json
 
   docker:
-    name: Docker build (static check)
+    name: Docker build and smoke test
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -43,6 +43,29 @@ jobs:
           push: false
           load: true
           tags: aegis-mcp:ci
+      - name: Run container and probe health endpoints
+        run: |
+          docker run -d --name aegis-smoke -p 8000:8000 \
+            -e AEGIS_ENVIRONMENT=production \
+            -e AEGIS_TRANSPORT=streamable-http \
+            -e AEGIS_AUTH_MODE=jwt \
+            -e AEGIS_JWT_SECRET=ci-smoke-test-secret-at-least-32-chars \
+            -e AEGIS_PUBLIC_URL=https://aegis.example.test \
+            -e AEGIS_JWT_ISSUER=https://issuer.example.test \
+            -e AEGIS_JWT_AUDIENCE=https://aegis.example.test \
+            -e AEGIS_OFFLINE=true \
+            aegis-mcp:ci
+          for i in $(seq 1 30); do
+            if curl -fsS http://127.0.0.1:8000/healthz; then ok=1; break; fi
+            sleep 1
+          done
+          docker logs aegis-smoke
+          test "${ok:-0}" = "1"
+          curl -fsS http://127.0.0.1:8000/readyz
+          test "$(curl -s -o /dev/null -w '%{http_code}' -X POST http://127.0.0.1:8000/mcp)" = "401"
+      - name: Container logs on failure
+        if: failure()
+        run: docker logs aegis-smoke || true
 
   security:
     name: Static security checks
