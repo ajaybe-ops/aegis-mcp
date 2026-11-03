@@ -1,0 +1,39 @@
+# Aegis MCP — Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# pytest / coverage / caches
+.pytest_cache/
+.coverage
+htmlcov/
+.coverage.*
+
+# type checkers / linters
+.mypy_cache/
+.ruff_cache/
+.bandit/
+
+# local state / generated artifacts
+data/
+*.db
+*.sqlite*
+
+# secrets (never commit real credentials; keep the example)
+.env
+.env.*
+!.env.example
+
+# tooling
+.idea/
+.vscode/
+*.swp
+
+# os
+.DS_Store
+
+# docs builds
+site/
+docs/_build/

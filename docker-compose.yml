@@ -1,0 +1,43 @@
+services:
+  aegis-mcp:
+    build: .
+    image: aegis-mcp:local
+    container_name: aegis-mcp
+    environment:
+      AEGIS_ENVIRONMENT: production
+      AEGIS_TRANSPORT: streamable-http
+      AEGIS_HOST: 0.0.0.0
+      AEGIS_PORT: "8000"
+      AEGIS_MCP_PATH: /mcp
+      AEGIS_PUBLIC_URL: https://aegis.example.test
+      AEGIS_AUTH_MODE: jwt
+      # Required: export AEGIS_JWT_SECRET (>= 32 chars) before `docker compose up`.
+      AEGIS_JWT_SECRET: ${AEGIS_JWT_SECRET:?set AEGIS_JWT_SECRET to a random 32+ character secret}
+      AEGIS_JWT_ALGORITHMS: HS256
+      AEGIS_JWT_ISSUER: https://issuer.example.test
+      AEGIS_JWT_AUDIENCE: https://aegis.example.test
+      AEGIS_REQUIRED_SCOPES: aegis:read,aegis:triage
+      AEGIS_ALLOWED_HOSTS: aegis.example.test,localhost:*,127.0.0.1:*,[::1]:*
+      AEGIS_ALLOWED_ORIGINS: https://aegis.example.test,http://localhost:*,http://127.0.0.1:*,http://[::1]:*
+      AEGIS_OFFLINE: "false"
+      AEGIS_OTEL_ENABLED: "true"
+      AEGIS_OTEL_ENDPOINT: http://otel-collector:4318
+      AEGIS_SQLITE_PATH: /data/aegis.db
+      AEGIS_LOG_LEVEL: INFO
+    ports:
+      - "8000:8000"
+    volumes:
+      - aegis-data:/data
+    depends_on:
+      - otel-collector
+
+  otel-collector:
+    image: otel/opentelemetry-collector:0.120.0
+    command: ["--config=/etc/opentelemetry-collector/config.yaml"]
+    volumes:
+      - ./deploy/otel-collector-config.yaml:/etc/opentelemetry-collector/config.yaml:ro
+    ports:
+      - "4318:4318"
+
+volumes:
+  aegis-data:

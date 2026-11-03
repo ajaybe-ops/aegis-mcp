@@ -1,0 +1,1 @@
+"""Aegis MCP test package."""

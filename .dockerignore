@@ -1,0 +1,41 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# pytest / coverage / caches
+.pytest_cache/
+.coverage
+htmlcov/
+.coverage.*
+
+# type checkers / linters
+.mypy_cache/
+.ruff_cache/
+.bandit/
+
+# local state
+data/
+*.db
+*.sqlite*
+
+# secrets
+.env
+.env.*
+!.env.example
+
+# os / ide
+.DS_Store
+.idea/
+.vscode/
+*.swp
+
+# docs builds
+site/
+docs/_build/
+
+# git metadata
+.git/
+.github/
